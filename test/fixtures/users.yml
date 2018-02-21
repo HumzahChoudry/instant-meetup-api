@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  profile_pic: MyString
+  current_latitude: 1.5
+  current_longitude: 1.5
+
+two:
+  first_name: MyString
+  last_name: MyString
+  profile_pic: MyString
+  current_latitude: 1.5
+  current_longitude: 1.5
