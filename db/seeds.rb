@@ -5,11 +5,17 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Location.create()
+5.times do
+  Location.create(name: Faker::FamilyGuy.location)
+end
 
-Meetup.create(location: Location.all.sample)
+5.times do
+  Meetup.create(location: Location.all.sample)
+end
 
-user = User.create(first_name: 'Humzah', last_name: 'Choudry', user_name: 'HChouDaddy', profile_pic: 'picture_url_here', current_latitude: 22.00, current_longitude: 52.12, password_digest: 'HFUIHIHFEI12i1hi1')
+5.times do
+  User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, user_name: Faker::FamilyGuy.character, profile_pic: 'picture_url_here', current_latitude: (40 + rand(100)*0.01), current_longitude: (-70 + rand(100)*0.01), password_digest: 'Sup')
+end
 
 # user.user_meetups.build(meetup_id: Meetup.all.sample.id)
 
