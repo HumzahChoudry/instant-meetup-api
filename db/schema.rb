@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20180221225243) do
   create_table "meetups", force: :cascade do |t|
     t.integer "location_id"
     t.boolean "public"
+    t.integer "host_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

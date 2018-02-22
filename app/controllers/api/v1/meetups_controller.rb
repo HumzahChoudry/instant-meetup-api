@@ -1,7 +1,11 @@
 class Api::V1::MeetupsController < ApplicationController
   def index
-    @meetups = Note.all
+    @meetups = Meetup.all
     render json: @meetups
+  end
+
+  def create
+    @meetup = Meetup.new()
   end
 
   def update
@@ -20,4 +24,4 @@ class Api::V1::MeetupsController < ApplicationController
     params.permit(:title, :content)
   end
 end
-#HAVE NOT CREATED MODEL YET 
+#HAVE NOT CREATED MODEL YET
