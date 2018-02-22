@@ -13,8 +13,12 @@ end
   Meetup.create(location: Location.all.sample)
 end
 
-5.times do
+10.times do
   User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, user_name: Faker::FamilyGuy.character, profile_pic: 'picture_url_here', current_latitude: (40 + rand(100)*0.01), current_longitude: (-70 + rand(100)*0.01), password_digest: 'Sup')
+end
+
+10.times do
+  Friendship.create(user_id: User.all.sample, friend_id: User.all.sample,)
 end
 
 # user.user_meetups.build(meetup_id: Meetup.all.sample.id)
