@@ -5,22 +5,41 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
 5.times do
   Location.create(name: Faker::FamilyGuy.location)
 end
 
-10.times do
-  User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, user_name: Faker::FamilyGuy.character, profile_pic: 'picture_url_here', current_latitude: (40 + rand(100)*0.01), current_longitude: (-70 + rand(100)*0.01), password_digest: 'Sup')
-end
+  User.create(first_name: 'Humzah', last_name: 'Choudry', username: 'humzah', profile_pic: 'picture_url_here', current_latitude: (40 + rand(100)*0.01), current_longitude: (-70 + rand(100)*0.01), password: "123456")
 
 10.times do
-  Friendship.create(user_id: User.all.sample, friend_id: User.all.sample,)
+  User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, username: Faker::FamilyGuy.character, profile_pic: 'picture_url_here', current_latitude: (40 + rand(100)*0.01), current_longitude: (-70 + rand(100)*0.01), password_digest: 'Sup')
 end
 
-5.times do
-  Meetup.create(location: Location.all.sample, host_id: User.all.sample.id)
+
+  Friendship.create(user_id: 1, friend_id: 2)
+  Friendship.create(user_id: 1, friend_id: 3)
+  Friendship.create(user_id: 1, friend_id: 4)
+  Friendship.create(user_id: 1, friend_id: 5)
+  Friendship.create(user_id: 1, friend_id: 6)
+  Friendship.create(user_id: 2, friend_id: 3)
+  Friendship.create(user_id: 5, friend_id: 9)
+  Friendship.create(user_id: 9, friend_id: 1)
+
+
+10.times do
+  Meetup.create(location_id: Location.all.sample.id, host_id: User.all.sample.id)
 end
 # user.user_meetups.build(meetup_id: Meetup.all.sample.id)
-20.times do
-  UserMeetup.create(user_id: User.all.sample.id, meetup_id: Meetup.all.sample.id)
-end
+
+
+  UserMeetup.create(user_id: 1, meetup_id: 1)
+  UserMeetup.create(user_id: 1, meetup_id: 2)
+  UserMeetup.create(user_id: 2, meetup_id: 3)
+  UserMeetup.create(user_id: 2, meetup_id: 1)
+  UserMeetup.create(user_id: 3, meetup_id: 1)
+  UserMeetup.create(user_id: 1, meetup_id: 6)
+  UserMeetup.create(user_id: 8, meetup_id: 7)
+  UserMeetup.create(user_id: 6, meetup_id: 7)
+  UserMeetup.create(user_id: 5, meetup_id: 9)
+  UserMeetup.create(user_id: 4, meetup_id: 1)

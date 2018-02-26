@@ -4,8 +4,18 @@ class Api::V1::MeetupsController < ApplicationController
     render json: @meetups
   end
 
+  def show
+    user = User.find(params[:id])
+    meetups = user.meetups
+    render json: meetups
+  end
+
   def create
     @meetup = Meetup.new()
+  end
+
+  def login
+    byebug
   end
 
   def update
@@ -19,9 +29,12 @@ class Api::V1::MeetupsController < ApplicationController
     end
   end
 
+  def user_meetups
+
+  end
+
   private
   def meetup_params
     params.permit(:title, :content)
   end
 end
-#HAVE NOT CREATED MODEL YET

@@ -33,9 +33,10 @@ ActiveRecord::Schema.define(version: 20180221225243) do
   create_table "meetups", force: :cascade do |t|
     t.integer "location_id"
     t.boolean "public"
-    t.integer "host_id"
+    t.bigint "host_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_meetups_on_host_id"
   end
 
   create_table "user_meetups", id: false, force: :cascade do |t|
@@ -48,7 +49,7 @@ ActiveRecord::Schema.define(version: 20180221225243) do
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "user_name"
+    t.string "username"
     t.string "profile_pic"
     t.float "current_latitude"
     t.float "current_longitude"
