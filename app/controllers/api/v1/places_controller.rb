@@ -19,7 +19,7 @@ class Api::V1::PlacesController < ApplicationController
 
     uri = URI.parse(final_url)
     response = Net::HTTP.get_response(uri)
-    response.body
+
     result = JSON.parse(response.body)
 
 

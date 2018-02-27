@@ -9,4 +9,9 @@ class Api::V1::UsersController < ApplicationController
       render json: {errors: @user.errors.full_messages}, status: 422
     end
   end
+
+  def index
+    users = User.all
+    render json: users
+  end
 end
