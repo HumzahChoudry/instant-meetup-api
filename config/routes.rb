@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       get '/users/:id/meetups', to: 'meetups#user_meetups'
       #post '/chats/:id/messages', to: 'chats#send_message'
       #mount ActionCable.server => '/cable'
+      get '/places', to: 'places#get_places'
+      get '/places/:place_id', to: 'places#get_place'
+      get '/pictures/:picture_id', to: 'places#get_picture'
     end
   end
   post '/login', to: 'auth#login'

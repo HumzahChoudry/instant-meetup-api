@@ -10,10 +10,10 @@
   Location.create(name: Faker::FamilyGuy.location)
 end
 
-  User.create(first_name: 'Humzah', last_name: 'Choudry', username: 'humzah', profile_pic: 'picture_url_here', current_latitude: (40 + rand(100)*0.01), current_longitude: (-70 + rand(100)*0.01), password: "123456")
+  User.create(first_name: 'Humzah', last_name: 'Choudry', username: 'humzah', profile_pic: 'picture_url_here', current_latitude: (40.7052800), current_longitude: (-74.0140250), password: "123456")
 
 10.times do
-  User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, username: Faker::FamilyGuy.character, profile_pic: 'picture_url_here', current_latitude: (40 + rand(100)*0.01), current_longitude: (-70 + rand(100)*0.01), password_digest: 'Sup')
+  User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, username: Faker::FamilyGuy.character, profile_pic: 'picture_url_here', current_latitude: (40.7 + rand(100)*0.0001), current_longitude: (-74.01 - rand(100)*0.0001), password: '123456')
 end
 
 
