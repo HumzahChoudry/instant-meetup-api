@@ -8,6 +8,7 @@ class Api::V1::MeetupsController < ApplicationController
     render json: @meetups
   end
 
+
   def show
     user = User.find(params[:id])
     meetups = user.meetups
@@ -27,8 +28,11 @@ class Api::V1::MeetupsController < ApplicationController
 
       coordinates = average_meetup_users_location(@meetup)
       location_data = find_location(coordinates)
+      #get picture uses return from get place to get picture and add it to @meetup
+      x = get_place(location_data["place_id"])
+      picture_url = get_picture(x)
 
-      location = create_or_find_location(location_data)
+      location = create_or_find_location(location_data, picture_url)
       #add_location_to_meetup
 
       @meetup.location_id = location.id
@@ -81,17 +85,54 @@ class Api::V1::MeetupsController < ApplicationController
     response = Net::HTTP.get_response(uri)
     response.body
     result = JSON.parse(response.body)
-    return result["results"][0]
+    max = result["results"].length
+    
+    return result["results"][rand(max)]
   end
 
-  def create_or_find_location(location_data)
+  def create_or_find_location(location_data, picture_url)
     location = Location.find_or_create_by(
       name: location_data["name"],
       place_id: location_data["place_id"],
       lat: location_data["geometry"]["location"]["lat"],
       lng: location_data["geometry"]["location"]["lng"],
-      vicinity: location_data["vicinity"]
+      vicinity: location_data["vicinity"],
+      photo: picture_url
      )
+  end
+
+  def get_picture(picture_id)
+    url = 'https://maps.googleapis.com/maps/api/place/photo'
+
+    key = '?key=AIzaSyCJWxC8L5mK9wrlkILVrNP3RmDT2yEXi6Y'
+    picture_id = "&photoreference=#{picture_id}"
+    # 1280 x 720
+
+    final_url = "#{url + key + picture_id}&maxwidth=400"
+
+    uri = URI.parse(final_url)
+    response = Net::HTTP.get_response(uri)
+    # result = response.body
+    picture_url = response.body.split("A HREF=\"") # remove first part of "A" HTML TAG
+    picture_url = picture_url[1].split("\">here") # remove second part of "A" HTML TAG
+
+    picture_url[0]
+  end
+
+  def get_place(place_id)
+    url = 'https://maps.googleapis.com/maps/api/place/details/json'
+
+    place_id = "&place_id=#{place_id}"
+    key = '?key=AIzaSyAUtkYCeGodhngmVM40Yo8PxDDlgU6mrfo'
+
+    final_url = "#{url + key + place_id}"
+
+    uri = URI.parse(final_url)
+    response = Net::HTTP.get_response(uri)
+    response.body
+    result = JSON.parse(response.body)
+    result["result"]["photos"][0]["photo_reference"]
+
   end
 
   private

@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20180221225243) do
     t.float "lat"
     t.float "lng"
     t.string "vicinity"
+    t.string "photo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
