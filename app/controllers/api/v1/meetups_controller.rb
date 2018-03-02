@@ -39,7 +39,7 @@ class Api::V1::MeetupsController < ApplicationController
       @meetup.location_id = location.id
 
       if @meetup.save
-        byebug
+        
         #return_meetup_to_frontend with location data
         render json: @meetup
       else
