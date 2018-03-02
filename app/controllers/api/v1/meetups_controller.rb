@@ -12,7 +12,6 @@ class Api::V1::MeetupsController < ApplicationController
   def show
     user = User.find(params[:id])
     meetups = user.meetups
-    byebug
     render json: meetups
   end
 
@@ -23,7 +22,7 @@ class Api::V1::MeetupsController < ApplicationController
       @meetup = Meetup.new(host_id: user.id)
       #will send meetup request to friends using action cable
       #right now we will just add all friends to meetup
-      @meetup.users < user
+      @meetup.users << user
       user.friends.each do |friend|
         @meetup.users << friend
       end
@@ -40,6 +39,7 @@ class Api::V1::MeetupsController < ApplicationController
       @meetup.location_id = location.id
 
       if @meetup.save
+        byebug
         #return_meetup_to_frontend with location data
         render json: @meetup
       else
