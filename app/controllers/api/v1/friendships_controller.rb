@@ -8,7 +8,7 @@ class Api::V1::FriendshipsController < ApplicationController
   def show
     user = User.find(params[:id])
     friends = user.friends
-    render json: friends
+    render :json => friends.to_json
   end
 
   def create

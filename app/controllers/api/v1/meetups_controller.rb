@@ -17,14 +17,14 @@ class Api::V1::MeetupsController < ApplicationController
 
   def create
     user = User.find(params[:user_id])
-
     if user
       @meetup = Meetup.new(host_id: user.id)
+      selectedFriends = params[:selectedFriends]
       #will send meetup request to friends using action cable
       #right now we will just add all friends to meetup
       @meetup.users << user
-      user.friends.each do |friend|
-        @meetup.users << friend
+      selectedFriends.each do |friend_info|
+        @meetup.users << User.find(friend_info[:id])
       end
 
       coordinates = average_meetup_users_location(@meetup)
@@ -37,9 +37,8 @@ class Api::V1::MeetupsController < ApplicationController
       #add_location_to_meetup
 
       @meetup.location_id = location.id
-
       if @meetup.save
-        
+
         #return_meetup_to_frontend with location data
         render json: @meetup
       else
@@ -89,19 +88,23 @@ class Api::V1::MeetupsController < ApplicationController
     response.body
     result = JSON.parse(response.body)
     max = result["results"].length
-
     return result["results"][rand(max)]
   end
 
-  def create_or_find_location(location_data, picture_url)
-    location = Location.find_or_create_by(
-      name: location_data["name"],
-      place_id: location_data["place_id"],
-      lat: location_data["geometry"]["location"]["lat"],
-      lng: location_data["geometry"]["location"]["lng"],
-      vicinity: location_data["vicinity"],
-      photo: picture_url
-     )
+  def get_place(place_id)
+    url = 'https://maps.googleapis.com/maps/api/place/details/json'
+
+    place_id = "&place_id=#{place_id}"
+    key = '?key=AIzaSyAUtkYCeGodhngmVM40Yo8PxDDlgU6mrfo'
+
+    final_url = "#{url + key + place_id}"
+
+    uri = URI.parse(final_url)
+    response = Net::HTTP.get_response(uri)
+    response.body
+    result = JSON.parse(response.body)
+    result["result"]["photos"][0]["photo_reference"]
+
   end
 
   def get_picture(picture_id)
@@ -122,20 +125,15 @@ class Api::V1::MeetupsController < ApplicationController
     picture_url[0]
   end
 
-  def get_place(place_id)
-    url = 'https://maps.googleapis.com/maps/api/place/details/json'
-
-    place_id = "&place_id=#{place_id}"
-    key = '?key=AIzaSyAUtkYCeGodhngmVM40Yo8PxDDlgU6mrfo'
-
-    final_url = "#{url + key + place_id}"
-
-    uri = URI.parse(final_url)
-    response = Net::HTTP.get_response(uri)
-    response.body
-    result = JSON.parse(response.body)
-    result["result"]["photos"][0]["photo_reference"]
-
+  def create_or_find_location(location_data, picture_url)
+    location = Location.find_or_create_by(
+      name: location_data["name"],
+      place_id: location_data["place_id"],
+      lat: location_data["geometry"]["location"]["lat"],
+      lng: location_data["geometry"]["location"]["lng"],
+      vicinity: location_data["vicinity"],
+      photo: picture_url
+     )
   end
 
   private
