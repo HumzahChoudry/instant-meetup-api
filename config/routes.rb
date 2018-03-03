@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :friendships
       resources :meetups
       get '/users/:id/meetups', to: 'meetups#user_meetups'
+      get 'friends/meetups/:id', to: 'meetups#show_friends_meetups'
       #post '/chats/:id/messages', to: 'chats#send_message'
       #mount ActionCable.server => '/cable'
       get '/places', to: 'places#get_places'

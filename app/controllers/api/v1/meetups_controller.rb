@@ -11,14 +11,35 @@ class Api::V1::MeetupsController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    meetups = user.meetups
+    meetups = []
+    user.friends.each do |friend|
+      meetups.push(friend.meetups)
+    end
+
+    meetups = meetups.flatten.uniq
+    publicMeetups = Meetup.all.where(public: true)
+    meetups.push(publicMeetups)
+    meetups = meetups.flatten.uniq
+    if meetups
     render json: meetups
+    else
+      render json: {errors: meetup.errors.full_messages}, status: 422
+    end
+  end
+
+  def show_friends_meetups
+    user = User.find(params[:id])
+    meetups = []
+    user.friends.each do |friend|
+      meetups.push(friend.meetups.flatten)
+    end
+    render json: meetups.uniq
   end
 
   def create
     user = User.find(params[:user_id])
     if user
-      @meetup = Meetup.new(host_id: user.id)
+      @meetup = Meetup.new(host_id: user.id, public: params[:public])
       selectedFriends = params[:selectedFriends]
       #will send meetup request to friends using action cable
       #right now we will just add all friends to meetup
@@ -28,7 +49,7 @@ class Api::V1::MeetupsController < ApplicationController
       end
 
       coordinates = average_meetup_users_location(@meetup)
-      location_data = find_location(coordinates)
+      location_data = find_location(coordinates, params[:keyword])
       #get picture uses return from get place to get picture and add it to @meetup
       x = get_place(location_data["place_id"])
       picture_url = get_picture(x)
@@ -71,12 +92,12 @@ class Api::V1::MeetupsController < ApplicationController
     return "#{average_lat},#{average_lon}"
   end
 
-  def find_location(location)
+  def find_location(location, keyword)
 
     base_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
 
     key = '?key=AIzaSyCJWxC8L5mK9wrlkILVrNP3RmDT2yEXi6Y'
-    type = "&type=bar"
+    type = "&type=#{keyword}"
     radius = "&radius=200"
     location = "&location=#{location}"
     # location = '&location=40.7052569,-74.0162643'

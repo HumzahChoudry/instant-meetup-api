@@ -4,4 +4,5 @@ class Meetup < ApplicationRecord
   has_many :users, through: :user_meetups
   belongs_to :host, class_name: "User"
 
+  
 end
