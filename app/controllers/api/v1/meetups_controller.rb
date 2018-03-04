@@ -161,7 +161,7 @@ class Api::V1::MeetupsController < ApplicationController
   end
 
   private
-  def meetup_params()
+  def meetup_params
     byebug
     params.require(:meetup).permit(:host_id, :location_id)
   end

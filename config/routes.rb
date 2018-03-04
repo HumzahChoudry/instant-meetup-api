@@ -9,11 +9,13 @@ Rails.application.routes.draw do
       get 'friends/meetups/:id', to: 'meetups#show_friends_meetups'
       #post '/chats/:id/messages', to: 'chats#send_message'
       #mount ActionCable.server => '/cable'
+      patch '/user/location/:id', to: 'users#update_location'
       get '/places', to: 'places#get_places'
       get '/places/:place_id', to: 'places#get_place'
       get '/pictures/:picture_id', to: 'places#get_picture'
     end
   end
+  post '/signup', to: 'auth#signup'
   post '/login', to: 'auth#login'
   get '/get_current_user', to: 'auth#get_current_user'
 end
