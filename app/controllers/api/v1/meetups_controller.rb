@@ -70,8 +70,11 @@ class Api::V1::MeetupsController < ApplicationController
 
   def update
     @meetup = Meetup.find(params[:id])
-
-    @meetup.update(meetup_params)
+    users = params[:users].map do |user|
+      User.find(user[:id])
+    end
+    @meetup.users = users
+    # @meetup.update(meetup_params)
     if @meetup.save
       render json: @meetup
     else
@@ -158,7 +161,8 @@ class Api::V1::MeetupsController < ApplicationController
   end
 
   private
-  def meetup_params
-    params.permit(:host_id)
+  def meetup_params()
+    byebug
+    params.require(:meetup).permit(:host_id, :location_id)
   end
 end
