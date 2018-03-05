@@ -12,7 +12,10 @@ class Api::V1::FriendshipsController < ApplicationController
   end
 
   def create
-    @friendship = Friendship.new()
+    friend = User.find(params[:friendId])
+    Friendship.create_reciprocal_for_ids(params[:user][:id], friend.id)
+
+    render :json => friend.to_json
   end
 
   def update
@@ -28,7 +31,7 @@ class Api::V1::FriendshipsController < ApplicationController
 
   private
   def friendship_params
-    params.permit(:title, :content)
+    params.permit()
   end
 end
 #HAVE NOT CREATED MODEL YET
