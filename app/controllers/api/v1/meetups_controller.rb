@@ -47,16 +47,14 @@ class Api::V1::MeetupsController < ApplicationController
       selectedFriends.each do |friend_info|
         @meetup.users << User.find(friend_info[:id])
       end
-
       coordinates = average_meetup_users_location(@meetup)
-      location_data = find_location(coordinates, params[:keyword])
+      location_data = find_location(coordinates, params[:keyword], 200)
       #get picture uses return from get place to get picture and add it to @meetup
       x = get_place(location_data["place_id"])
-      picture_url = get_picture(x)
 
+      picture_url = get_picture(x)
       location = create_or_find_location(location_data, picture_url)
       #add_location_to_meetup
-
       @meetup.location_id = location.id
       if @meetup.save
 
@@ -95,22 +93,27 @@ class Api::V1::MeetupsController < ApplicationController
     return "#{average_lat},#{average_lon}"
   end
 
-  def find_location(location, keyword)
+  def find_location(location, keyword, radius)
 
     base_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
 
     key = '?key=AIzaSyCJWxC8L5mK9wrlkILVrNP3RmDT2yEXi6Y'
     type = "&type=#{keyword}"
-    radius = "&radius=200"
-    location = "&location=#{location}"
+    radius_str = "&radius=#{radius}"
+    location_str = "&location=#{location}"
     # location = '&location=40.7052569,-74.0162643'
 
-    final_url = "#{base_url + key + location + type + radius}"
+    final_url = "#{base_url + key + location_str + type + radius_str}"
 
     uri = URI.parse(final_url)
     response = Net::HTTP.get_response(uri)
     response.body
     result = JSON.parse(response.body)
+
+    if (result["status"] == "ZERO_REULTS")
+      find_location(location, keyword, (radius+100))
+    end
+
     max = result["results"].length
     return result["results"][rand(max)]
   end
@@ -127,11 +130,20 @@ class Api::V1::MeetupsController < ApplicationController
     response = Net::HTTP.get_response(uri)
     response.body
     result = JSON.parse(response.body)
-    result["result"]["photos"][0]["photo_reference"]
 
+    if(result["result"]["photos"])
+      result["result"]["photos"][0]["photo_reference"]
+    else
+      "https://vignette.wikia.nocookie.net/kotlc/images/a/a8/10546i3DAC5A5993C8BC8C.jpg/revision/latest?cb=20170111040640"
+    end
   end
 
   def get_picture(picture_id)
+
+    if (picture_id == "https://vignette.wikia.nocookie.net/kotlc/images/a/a8/10546i3DAC5A5993C8BC8C.jpg/revision/latest?cb=20170111040640")
+      return "https://vignette.wikia.nocookie.net/kotlc/images/a/a8/10546i3DAC5A5993C8BC8C.jpg/revision/latest?cb=20170111040640"
+    end
+
     url = 'https://maps.googleapis.com/maps/api/place/photo'
 
     key = '?key=AIzaSyCJWxC8L5mK9wrlkILVrNP3RmDT2yEXi6Y'
@@ -162,7 +174,6 @@ class Api::V1::MeetupsController < ApplicationController
 
   private
   def meetup_params
-    byebug
     params.require(:meetup).permit(:host_id, :location_id)
   end
 end

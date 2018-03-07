@@ -13,7 +13,7 @@ url = 'https://randomuser.me/api/'
 uri = URI.parse(url)
 
   #create Humzah and 2 friends
-  User.create(first_name: 'Humzah', last_name: 'Choudry', username: 'humzah', profile_pic: 'https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/5/005/0b5/03a/04f572a.jpg', current_latitude: (40.7052800), current_longitude: (-74.0140250), password: "123456")
+  User.create(first_name: 'Humzah', last_name: 'Choudry', username: 'humzah', profile_pic: 'https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/5/005/0b5/03a/04f572a.jpg', current_latitude: (40.7052800), current_longitude: (-74.0140250), password: "123456", status: "always hungry")
 
   response = Net::HTTP.get_response(uri)
   info = JSON.parse(response.body)
@@ -25,7 +25,7 @@ uri = URI.parse(url)
     profile_pic: info["results"][0]["picture"]["thumbnail"],
     current_latitude: (40.800694),
     current_longitude: (-73.955637),
-    password: '123456'
+    password: '123456', status: "in need of sushi"
   )
 
     response = Net::HTTP.get_response(uri)
@@ -38,7 +38,7 @@ uri = URI.parse(url)
       profile_pic: info["results"][0]["picture"]["thumbnail"],
       current_latitude: (40.725053),
       current_longitude: (-73.981052),
-      password: '123456'
+      password: '123456', status: "wants to see black panther"
     )
 
     response = Net::HTTP.get_response(uri)
@@ -51,7 +51,7 @@ uri = URI.parse(url)
       profile_pic: info["results"][0]["picture"]["thumbnail"],
       current_latitude: (40.747703),
       current_longitude: (-73.976851),
-      password: '123456'
+      password: '123456', status: "Who's up for some basketball?"
     )
 
     response = Net::HTTP.get_response(uri)
@@ -62,9 +62,9 @@ uri = URI.parse(url)
       last_name: info["results"][0]["name"]["last"],
       username: info["results"][0]["login"]["username"],
       profile_pic: info["results"][0]["picture"]["thumbnail"],
-      current_latitude: (40.711608),
-      current_longitude: (-73.960415),
-      password: '123456'
+      current_latitude: (40.755763),
+      current_longitude: (-73.990341),
+      password: '123456', status: "Cheesecake now"
     )
 
     response = Net::HTTP.get_response(uri)
@@ -77,7 +77,7 @@ uri = URI.parse(url)
       profile_pic: info["results"][0]["picture"]["thumbnail"],
       current_latitude: (40.767737),
       current_longitude: (-73.983665),
-      password: '123456'
+      password: '123456', status: "anyone want to watch the game tonight?"
     )
 
     response = Net::HTTP.get_response(uri)
@@ -90,7 +90,7 @@ uri = URI.parse(url)
       profile_pic: info["results"][0]["picture"]["thumbnail"],
       current_latitude: (40.775319),
       current_longitude: (-73.956710),
-      password: '123456'
+      password: '123456', status: "it's so nice out"
     )
 
     response = Net::HTTP.get_response(uri)
@@ -101,9 +101,9 @@ uri = URI.parse(url)
       last_name: info["results"][0]["name"]["last"],
       username: info["results"][0]["login"]["username"],
       profile_pic: info["results"][0]["picture"]["thumbnail"],
-      current_latitude: (40.676527),
-      current_longitude: (-73.964617),
-      password: '123456'
+      current_latitude: (40.728845),
+      current_longitude: (-73.990794),
+      password: '123456', status: "Beer"
     )
 
     response = Net::HTTP.get_response(uri)
@@ -116,10 +116,21 @@ uri = URI.parse(url)
       profile_pic: info["results"][0]["picture"]["thumbnail"],
       current_latitude: (40.716427),
       current_longitude: (-74.004120),
-      password: '123456'
+      password: '123456', status: "looking to meet new people"
     )
 
+    response = Net::HTTP.get_response(uri)
+    info = JSON.parse(response.body)
 
+    User.create(
+      first_name: info["results"][0]["name"]["first"],
+      last_name: info["results"][0]["name"]["last"],
+      username: info["results"][0]["login"]["username"],
+      profile_pic: info["results"][0]["picture"]["thumbnail"],
+      current_latitude: (40.714587),
+      current_longitude: (-73.983911),
+      password: '123456', status: "looking to meet new people"
+    )
 
 
 
