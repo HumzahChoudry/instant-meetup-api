@@ -41,6 +41,94 @@ uri = URI.parse(url)
       password: '123456'
     )
 
+    response = Net::HTTP.get_response(uri)
+    info = JSON.parse(response.body)
+
+    User.create(
+      first_name: info["results"][0]["name"]["first"],
+      last_name: info["results"][0]["name"]["last"],
+      username: info["results"][0]["login"]["username"],
+      profile_pic: info["results"][0]["picture"]["thumbnail"],
+      current_latitude: (40.747703),
+      current_longitude: (-73.976851),
+      password: '123456'
+    )
+
+    response = Net::HTTP.get_response(uri)
+    info = JSON.parse(response.body)
+
+    User.create(
+      first_name: info["results"][0]["name"]["first"],
+      last_name: info["results"][0]["name"]["last"],
+      username: info["results"][0]["login"]["username"],
+      profile_pic: info["results"][0]["picture"]["thumbnail"],
+      current_latitude: (40.711608),
+      current_longitude: (-73.960415),
+      password: '123456'
+    )
+
+    response = Net::HTTP.get_response(uri)
+    info = JSON.parse(response.body)
+
+    User.create(
+      first_name: info["results"][0]["name"]["first"],
+      last_name: info["results"][0]["name"]["last"],
+      username: info["results"][0]["login"]["username"],
+      profile_pic: info["results"][0]["picture"]["thumbnail"],
+      current_latitude: (40.767737),
+      current_longitude: (-73.983665),
+      password: '123456'
+    )
+
+    response = Net::HTTP.get_response(uri)
+    info = JSON.parse(response.body)
+
+    User.create(
+      first_name: info["results"][0]["name"]["first"],
+      last_name: info["results"][0]["name"]["last"],
+      username: info["results"][0]["login"]["username"],
+      profile_pic: info["results"][0]["picture"]["thumbnail"],
+      current_latitude: (40.775319),
+      current_longitude: (-73.956710),
+      password: '123456'
+    )
+
+    response = Net::HTTP.get_response(uri)
+    info = JSON.parse(response.body)
+
+    User.create(
+      first_name: info["results"][0]["name"]["first"],
+      last_name: info["results"][0]["name"]["last"],
+      username: info["results"][0]["login"]["username"],
+      profile_pic: info["results"][0]["picture"]["thumbnail"],
+      current_latitude: (40.676527),
+      current_longitude: (-73.964617),
+      password: '123456'
+    )
+
+    response = Net::HTTP.get_response(uri)
+    info = JSON.parse(response.body)
+
+    User.create(
+      first_name: info["results"][0]["name"]["first"],
+      last_name: info["results"][0]["name"]["last"],
+      username: info["results"][0]["login"]["username"],
+      profile_pic: info["results"][0]["picture"]["thumbnail"],
+      current_latitude: (40.716427),
+      current_longitude: (-74.004120),
+      password: '123456'
+    )
+
+
+
+
+
+
+
+
+
+
+
 
   Friendship.create(user_id: 1, friend_id: 2)
   Friendship.create(user_id: 1, friend_id: 3)
@@ -48,10 +136,9 @@ uri = URI.parse(url)
   Friendship.create(user_id: 2, friend_id: 3)
   Friendship.create(user_id: 3, friend_id: 1)
   Friendship.create(user_id: 3, friend_id: 2)
-  # Friendship.create(user_id: 5, friend_id: 9)
-  # Friendship.create(user_id: 9, friend_id: 1)
+  Friendship.create(user_id: 5, friend_id: 2)
+  Friendship.create(user_id: 2, friend_id: 5)
 
-#
 # 10.times do
 #   Meetup.create(location_id: Location.all.sample.id, host_id: User.all.sample.id)
 # end

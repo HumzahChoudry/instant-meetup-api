@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :last_name
       t.string :username
       t.string :profile_pic
+      t.string :status
       t.float :current_latitude
       t.float :current_longitude
       t.string :password_digest

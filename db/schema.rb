@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20180221225243) do
     t.string "last_name"
     t.string "username"
     t.string "profile_pic"
+    t.string "status"
     t.float "current_latitude"
     t.float "current_longitude"
     t.string "password_digest"
