@@ -48,7 +48,7 @@ class Api::V1::MeetupsController < ApplicationController
         @meetup.users << User.find(friend_info[:id])
       end
       coordinates = average_meetup_users_location(@meetup)
-      location_data = find_location(coordinates, params[:keyword], 200)
+      location_data = find_location(coordinates, params[:keyword], 400)
       #get picture uses return from get place to get picture and add it to @meetup
       x = get_place(location_data["place_id"])
 

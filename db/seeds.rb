@@ -51,7 +51,7 @@ uri = URI.parse(url)
       profile_pic: info["results"][0]["picture"]["thumbnail"],
       current_latitude: (40.747703),
       current_longitude: (-73.976851),
-      password: '123456', status: "Who's up for some basketball?"
+      password: '123456', status: "Always ?"
     )
 
     response = Net::HTTP.get_response(uri)
